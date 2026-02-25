@@ -16,12 +16,14 @@
     "annotation",
     "code-review"
   ],
+  "main": "opencode/index.js",
   "bin": {
     "open-plan-annotator": "bin/open-plan-annotator.cjs"
   },
   "files": [
     "bin/open-plan-annotator.cjs",
     "install.cjs",
+    "opencode/",
     ".claude-plugin/",
     "hooks/",
     "CLAUDE.md",
@@ -50,6 +52,7 @@
     "@types/bun": "^1.3.9"
   },
   "dependencies": {
+    "@opencode-ai/plugin": "^1.1.10",
     "@types/node": "^25.3.0"
   }
 }

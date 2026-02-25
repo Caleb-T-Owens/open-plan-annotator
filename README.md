@@ -50,9 +50,53 @@ From within Claude Code:
 This registers the `ExitPlanMode` hook that launches the annotation UI.
 
 
+### OpenCode Integration
+
+`open-plan-annotator` can also be loaded as an OpenCode plugin from npm.
+
+Add this to your `opencode.json`:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["open-plan-annotator"]
+}
+```
+
+After restart, OpenCode gets a `submit_plan` tool. The agent calls this tool with a markdown plan, the browser review UI opens, and the tool returns either:
+
+- approval (agent continues implementation)
+- requested changes with structured feedback (agent revises plan and resubmits)
+
+On approval, the plugin also attempts to hand off execution to an implementation agent.
+
+By default, handoff is enabled and targets `build`.
+
+Configure this in either of these files:
+
+- Project: `.opencode/open-plan-annotator.json`
+- Global: `~/.config/opencode/open-plan-annotator.json` (or `$XDG_CONFIG_HOME/opencode/open-plan-annotator.json`)
+
+Project config overrides global config.
+
+```json
+{
+  "implementationHandoff": {
+    "enabled": true,
+    "agent": "build"
+  }
+}
+```
+
+Set `"enabled": false` to disable automatic handoff.
+
+The UI agent switch is best-effort; explicit session routing to the target agent is the authoritative handoff.
+
+
 > [!NOTE]
 > The first run might take a few seconds if you hadn't installed the binary, as
-> Claude will trigger the download then.
+> the first Claude hook run or OpenCode `submit_plan` call will trigger the
+> binary download.
 
 ### From source
 
